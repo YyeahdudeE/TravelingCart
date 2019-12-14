@@ -8,30 +8,31 @@ using System.Collections.Generic;
 
 namespace TravelingCart
 {
-  public class  ModEntry : Mod
-  {
-    public override void Entry(IModHelper helper)
+    public class ModEntry : Mod
     {
-        Helper.Events.GameLoop.SaveLoaded += GameLoop_SaveLoaded;
-    }
+        public override void Entry(IModHelper helper)
+        {
+            Helper.Events.GameLoop.SaveLoaded += GameLoop_SaveLoaded;
+        }
 
         private void GameLoop_SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
             ModConfig config = this.Helper.ReadConfig<ModConfig>();
 
-            int num = new Random().Next(0, 100);
+            int rand = new Random().Next(1, 100);
+            int day = Game1.dayOfMonth;
 
             Forest forest = (Forest)Game1.getLocationFromName("Forest");
-            if (((Game1.dayOfMonth == 1 || Game1.dayOfMonth == 8 || Game1.dayOfMonth == 15 || Game1.dayOfMonth == 22) && config.Monday >= num) ||
-                ((Game1.dayOfMonth == 2 || Game1.dayOfMonth == 9 || Game1.dayOfMonth == 16 || Game1.dayOfMonth == 23) && config.Tuesday >= num) ||
-                ((Game1.dayOfMonth == 3 || Game1.dayOfMonth == 10 || Game1.dayOfMonth == 17 || Game1.dayOfMonth == 24) && config.Wednesday >= num) ||
-                ((Game1.dayOfMonth == 4 || Game1.dayOfMonth == 11 || Game1.dayOfMonth == 18 || Game1.dayOfMonth == 25) && config.Thursday >= num) ||
-                ((Game1.dayOfMonth == 5 || Game1.dayOfMonth == 12 || Game1.dayOfMonth == 19 || Game1.dayOfMonth == 26) && config.Friday >= num) ||
-                ((Game1.dayOfMonth == 6 || Game1.dayOfMonth == 13 || Game1.dayOfMonth == 20 || Game1.dayOfMonth == 27) && config.Saturday >= num) ||
-                ((Game1.dayOfMonth == 7 || Game1.dayOfMonth == 14 || Game1.dayOfMonth == 21 || Game1.dayOfMonth == 28) && config.Sunday >= num))
+
+            if (forest is null) { return; }
+            if (((day == 1 || day == 8 || day == 15 || day == 22) && config.Monday >= rand) ||
+                ((day == 2 || day == 9 || day == 16 || day == 23) && config.Tuesday >= rand) ||
+                ((day == 3 || day == 10 || day == 17 || day == 24) && config.Wednesday >= rand) ||
+                ((day == 4 || day == 11 || day == 18 || day == 25) && config.Thursday >= rand) ||
+                ((day == 5 || day == 12 || day == 19 || day == 26) && config.Friday >= rand) ||
+                ((day == 6 || day == 13 || day == 20 || day == 27) && config.Saturday >= rand) ||
+                ((day == 7 || day == 14 || day == 21 || day == 28) && config.Sunday >= rand))
             {
-
-
 
                 forest.travelingMerchantDay = true;
                 forest.travelingMerchantBounds.Add(new Rectangle(23 * Game1.tileSize, 10 * Game1.tileSize, 123 * Game1.pixelZoom, 28 * Game1.pixelZoom));
@@ -47,16 +48,16 @@ namespace TravelingCart
                 forest.travelingMerchantDay = false;
             }
         }
-  }
+    }
 
-  class ModConfig
-  {
-        public int Monday { get; set; } = 20;
-        public int Tuesday { get; set; } = 20;
-        public int Wednesday { get; set; } = 20;
-        public int Thursday { get; set; } = 20;
-        public int Friday { get; set; } = 30;
-        public int Saturday { get; set; } = 100;
+    class ModConfig
+    {
+        public int Monday { get; set; } = 0;
+        public int Tuesday { get; set; } = 0;
+        public int Wednesday { get; set; } = 0;
+        public int Thursday { get; set; } = 0;
+        public int Friday { get; set; } = 100;
+        public int Saturday { get; set; } = 0;
         public int Sunday { get; set; } = 100;
-   }
+    }
 }
