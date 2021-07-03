@@ -56,8 +56,8 @@ namespace TravelingCart
         public int Tuesday { get; set; } = 0;
         public int Wednesday { get; set; } = 0;
         public int Thursday { get; set; } = 0;
-        public int Friday { get; set; } = 100;
-        public int Saturday { get; set; } = 0;
+        public int Friday { get; set; } = 0;
+        public int Saturday { get; set; } = 100;
         public int Sunday { get; set; } = 100;
     }
 }
